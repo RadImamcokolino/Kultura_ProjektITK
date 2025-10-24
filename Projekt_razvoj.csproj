@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- stop SDK from generating assembly attributes if you keep AssemblyInfo.cs -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- stop Razor from generating ProvideApplicationPartFactory / RazorAssemblyInfo -->
+    <GenerateRazorAssemblyInfo>false</GenerateRazorAssemblyInfo>
+  </PropertyGroup>
+
+</Project>
