@@ -31,4 +31,12 @@ jobs:
           push: true
           tags: |
             lejicjesiptar69/projekt_kultura:latest
-            lejicjesiptar69/projekt_kultura:${{ github.sha }}
+            lejicjesiptar69/projekt_kultura:${{ github.sha }}  
+            
+      - name: Deploy to Azure Web App for Containers
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: NajdiDogodek
+          images: najdidogodek:latest
+
+    
