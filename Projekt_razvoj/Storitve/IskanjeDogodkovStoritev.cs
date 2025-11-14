@@ -19,6 +19,6 @@ public sealed class IskanjeDogodkovStoritev
     public IEnumerable<Dogodek> UrediPoPriljubljenosti(IEnumerable<Dogodek> dogodki, bool padajoce = true) =>
         padajoce ? dogodki.OrderByDescending(d => d.Priljubljenost) : dogodki.OrderBy(d => d.Priljubljenost);
 
-    public IEnumerable<Dogodek> UrediPoDatumu(IEnumerable<Dogodek> dogodki, bool narašèajoce = true) =>
-        narašèajoce ? dogodki.OrderBy(d => d.Zacetek) : dogodki.OrderByDescending(d => d.Zacetek);
+    public IEnumerable<Dogodek> UrediPoDatumu(IEnumerable<Dogodek> dogodki, bool narascajoce = true) =>
+        narascajoce ? dogodki.OrderBy(d => d.Zacetek) : dogodki.OrderByDescending(d => d.Zacetek);
 }

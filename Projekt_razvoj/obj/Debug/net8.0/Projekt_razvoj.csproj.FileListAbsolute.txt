@@ -31,3 +31,4 @@ C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\refin
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.pdb
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.genruntimeconfig.cache
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\ref\Projekt_razvoj.dll
+C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.sourcelink.json

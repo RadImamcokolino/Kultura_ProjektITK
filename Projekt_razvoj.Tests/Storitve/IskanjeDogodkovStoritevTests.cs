@@ -52,7 +52,7 @@ public class IskanjeDogodkovStoritevTests
     public void Test_UrediPoDatumu_Narascajoce()
     {
         var s = new IskanjeDogodkovStoritev();
-        var r = s.UrediPoDatumu(Vzorec(), narašèajoce: true).ToList();
+        var r = s.UrediPoDatumu(Vzorec(), narascajoce: true).ToList();
         for (int i = 1; i < r.Count; i++)
             Assert.IsTrue(r[i-1].Zacetek <= r[i].Zacetek);
     }
