@@ -20,13 +20,24 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # --- Restore ---
-      - name: Restore dependencies
-        run: dotnet restore
+      # --- Restore solution ---
+      - name: Restore solution
+        run: dotnet restore Projekt_razvoj.sln
+
+      # --- Restore test project ---
+      - name: Restore test project
+        run: dotnet restore Projekt_razvoj.Tests/Projekt_razvoj.Tests.csproj
 
       # --- Run Tests ---
-      - name: Test
-        run: dotnet test Projekt_razvoj.Tests --no-restore --logger:trx
+      - name: Run tests
+        run: dotnet test Projekt_razvoj.Tests --no-build --logger:trx
+
+      # --- Debug: show where trx files are ---
+      - name: Debug TRX files
+        if: always()
+        run: |
+          echo "Searching for trx files..."
+          find . -name "*.trx" -print
 
       # --- Save test results ---
       - name: Save test results as artifact
@@ -34,9 +45,8 @@ jobs:
         if: always()
         with:
           name: "Test results"
-          path: '**/TestResults/**/*.trx'
+          path: "**/*.trx"
           reporter: dotnet-trx
-
 
       # --- Docker Build ---
       - name: Set up Docker Buildx
@@ -57,4 +67,3 @@ jobs:
           tags: |
             lejicjesiptar69/projekt_kultura:latest
             lejicjesiptar69/projekt_kultura:${{ github.sha }}
-
