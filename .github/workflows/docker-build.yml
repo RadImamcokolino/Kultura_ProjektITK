@@ -30,7 +30,8 @@ jobs:
 
       # --- Run Tests ---
       - name: Run tests
-        run: dotnet test Projekt_razvoj.Tests/Projekt_razvoj.Tests.csproj --no-build --logger:trx
+        run: dotnet test Projekt_razvoj.Tests/Projekt_razvoj.Tests.csproj --logger:trx
+
 
       # --- Debug: show where trx files are ---
       - name: Debug TRX files
