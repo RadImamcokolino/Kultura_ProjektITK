@@ -28,7 +28,7 @@ public class DogodekTests
     }
 
     [TestMethod]
-    public void Test_Cena_Brezplacno_KoNullAliNiè()
+    public void Test_Cena_Brezplacno_KoNullAliNic()
     {
         var dNull = new Dogodek { Cena = null };
         var dZero = new Dogodek { Cena = 0m };
