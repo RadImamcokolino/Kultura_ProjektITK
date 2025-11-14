@@ -34,8 +34,9 @@ jobs:
         if: always()
         with:
           name: "Test results"
-          path: ${{ github.workspace }}/Projekt_razvoj.Tests/TestResults/*.trx
+          path: '**/TestResults/**/*.trx'
           reporter: dotnet-trx
+
 
       # --- Docker Build ---
       - name: Set up Docker Buildx
