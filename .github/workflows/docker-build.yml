@@ -10,7 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      checks: write
+      contents: read
+
     steps:
+      # --- Checkout ---
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -31,7 +36,7 @@ jobs:
       # --- Run Tests ---
       - name: Run tests
         run: dotnet test Projekt_razvoj.Tests/Projekt_razvoj.Tests.csproj --logger:trx
-
+        
 
       # --- Debug: show where trx files are ---
       - name: Debug TRX files
@@ -48,6 +53,8 @@ jobs:
           name: "Test results"
           path: "**/*.trx"
           reporter: dotnet-trx
+          use-github-checks: true   # ALI daj false, če nočeš GitHub checks
+          fail-on-error: false      # naj ne faila workflowa, če ni testov
 
       # --- Docker Build ---
       - name: Set up Docker Buildx
