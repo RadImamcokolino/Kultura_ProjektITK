@@ -1,0 +1,32 @@
+@page
+@model Projekt_razvoj.Pages.Dogodki.DodajModel
+@{
+    ViewData["Title"] = "Dodaj dogodek";
+}
+<h1>Dodaj dogodek</h1>
+<form method="post" class="form">
+    <label>Naslov
+        <input asp-for="Input.Naslov" />
+    </label>
+    <label>Vrsta
+        <input asp-for="Input.Vrsta" placeholder="koncert / razstava / gledalisce" />
+    </label>
+    <label>Lokacija
+        <input asp-for="Input.Lokacija" />
+    </label>
+    <label>Zaèetek
+        <input asp-for="Input.Zacetek" type="datetime-local" />
+    </label>
+    <label>Cena (pusti prazno ali 0 za brezplaèno)
+        <input asp-for="Input.Cena" />
+    </label>
+    <label>Priljubljenost (0-100)
+        <input asp-for="Input.Priljubljenost" type="number" />
+    </label>
+    <button type="submit" class="btn">Shrani</button>
+    <a class="btn-secondary" asp-page="Seznam">Preklièi</a>
+</form>
+@if (Model.ErrorMessage is not null)
+{
+    <p class="error">@Model.ErrorMessage</p>
+}

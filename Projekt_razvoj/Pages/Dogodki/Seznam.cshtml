@@ -1,0 +1,48 @@
+﻿@page
+@model Projekt_razvoj.Pages.Dogodki.SeznamModel
+@{
+    ViewData["Title"] = "Dogodki";
+}
+<h1>Dogodki</h1>
+
+<form method="get" class="filter-form">
+    <input type="text" name="lokacija" value="@Model.Lokacija" placeholder="Lokacija" />
+    <select name="vrsta">
+        <option value="">(Vrsta)</option>
+        <option value="koncert" selected="@("koncert"==Model.Vrsta)">Koncert</option>
+        <option value="razstava" selected="@("razstava"==Model.Vrsta)">Razstava</option>
+        <option value="gledalisce" selected="@("gledalisce"==Model.Vrsta)">Gledališče</option>
+    </select>
+    <label><input type="checkbox" name="brezplacni" value="true" @(Model.Brezplacni ? "checked" : "") /> Brezplačni</label>
+    <button type="submit" class="btn">Filtriraj</button>
+</form>
+
+<table class="events">
+    <thead>
+        <tr>
+            <th>Naslov</th>
+            <th>Vrsta</th>
+            <th>Lokacija</th>
+            <th>Začetek</th>
+            <th>Cena</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var d in Model.Dogodki)
+{
+    <tr>
+        <td><a asp-page="Podrobnosti" asp-route-id="@d.Id">@d.Naslov</a></td>
+        <td>@d.Vrsta</td>
+        <td>@d.Lokacija</td>
+        <td>@d.Zacetek.ToString("dd.MM.yyyy HH:mm")</td>
+        <td>@(d.Cena is null || d.Cena==0 ? "Brezplačno" : d.Cena?.ToString("0.00 €"))</td>
+        <td>
+            <form method="post" asp-page-handler="Priljubljen" asp-route-id="@d.Id">
+                <button class="btn-small" type="submit">★</button>
+            </form>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

@@ -1,7 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Registracija Razor Pages
 builder.Services.AddRazorPages();
+
+// Aplikacijske storitve
+builder.Services.AddSingleton<Projekt_razvoj.Storitve.PreverjevalnikGesel>();
+builder.Services.AddSingleton<Projekt_razvoj.Storitve.IskanjeDogodkovStoritev>();
+builder.Services.AddSingleton<Projekt_razvoj.Storitve.PriljubljeniStoritev>();
+builder.Services.AddSingleton<Projekt_razvoj.Storitve.IDogodkiRepository, Projekt_razvoj.Storitve.DogodkiRepository>();
 
 var app = builder.Build();
 

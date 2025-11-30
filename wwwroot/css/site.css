@@ -1,0 +1,87 @@
+:root {
+  --bg:#121212;
+  --fg:#f5f5f5;
+  --accent:#ffb347;
+  --accent2:#2d89ef;
+  --danger:#d9534f;
+  --radius:6px;
+  font-family: system-ui, Arial, sans-serif;
+}
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+}
+
+.topbar {
+  display:flex;
+  gap:2rem;
+  align-items:center;
+  padding:.75rem 1.25rem;
+  background:#1e1e1e;
+  position:sticky;
+  top:0;
+}
+
+.topbar .brand { font-weight:600; font-size:1.2rem; }
+.topbar nav a {
+  color:var(--fg);
+  text-decoration:none;
+  margin-right:1rem;
+  padding:.4rem .6rem;
+  border-radius:var(--radius);
+}
+.topbar nav a:hover { background:#333; }
+
+.content { max-width:1000px; margin:1.5rem auto; padding:0 1rem; }
+
+.footer { text-align:center; padding:1rem; background:#1e1e1e; margin-top:2rem; }
+
+.btn, .btn-secondary, .btn-small {
+  display:inline-block;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  font-size:.9rem;
+  font-weight:500;
+  padding:.55rem .9rem;
+  border-radius:var(--radius);
+}
+
+.btn { background:var(--accent); color:#000; }
+.btn:hover { filter:brightness(1.1); }
+.btn-secondary { background:#333; color:var(--fg); }
+.btn-secondary:hover { background:#444; }
+.btn-small { background:var(--accent2); color:#fff; padding:.35rem .6rem; }
+.btn-small:hover { filter:brightness(1.1); }
+
+table.events {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:1rem;
+}
+table.events th, table.events td {
+  padding:.5rem .6rem;
+  border-bottom:1px solid #333;
+}
+table.events tr:hover { background:#222; }
+
+.form label { display:block; margin:.6rem 0; }
+.form input { width:100%; padding:.45rem .55rem; border:1px solid #333; background:#1e1e1e; color:var(--fg); border-radius:var(--radius); }
+
+.filter-form input, .filter-form select {
+  padding:.4rem .55rem;
+  background:#1e1e1e;
+  border:1px solid #333;
+  color:var(--fg);
+  border-radius:var(--radius);
+  margin-right:.5rem;
+}
+
+.details dt { font-weight:600; }
+.details dd { margin:0 0 .5rem 0; }
+
+.error { color:var(--danger); font-weight:600; }
+.info { color:var(--accent); }
+.features li { margin:.3rem 0; }

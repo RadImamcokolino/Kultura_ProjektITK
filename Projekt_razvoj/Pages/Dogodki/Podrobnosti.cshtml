@@ -1,0 +1,21 @@
+@page "{id:guid}"
+@model Projekt_razvoj.Pages.Dogodki.PodrobnostiModel
+@{
+    ViewData["Title"] = "Podrobnosti";
+}
+@if (Model.Dogodek is null)
+{
+    <h1>Dogodek ni najden.</h1>
+}
+else
+{
+    <h1>@Model.Dogodek.Naslov</h1>
+    <dl class="details">
+        <dt>Vrsta</dt><dd>@Model.Dogodek.Vrsta</dd>
+        <dt>Lokacija</dt><dd>@Model.Dogodek.Lokacija</dd>
+        <dt>Zaèetek</dt><dd>@Model.Dogodek.Zacetek.ToString("dd.MM.yyyy HH:mm")</dd>
+        <dt>Cena</dt><dd>@(Model.Dogodek.Cena is null || Model.Dogodek.Cena == 0 ? "Brezplaèno" : Model.Dogodek.Cena?.ToString("0.00 €"))</dd>
+        <dt>Priljubljenost</dt><dd>@Model.Dogodek.Priljubljenost</dd>
+    </dl>
+    <p><a class="btn-secondary" asp-page="Seznam">Nazaj</a></p>
+}

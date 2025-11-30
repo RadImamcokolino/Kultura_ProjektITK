@@ -1,0 +1,20 @@
+Index.cshtml
+@page
+@model Projekt_razvoj.Pages.Priljubljeni.IndexModel
+@{
+    ViewData["Title"] = "Priljubljeni";
+}
+<h1>Priljubljeni dogodki</h1>
+@if (!Model.Dogodki.Any())
+{
+    <p>Ni shranjenih dogodkov.</p>
+}
+else
+{
+    <ul>
+    @foreach (var d in Model.Dogodki)
+    {
+        <li><a asp-page="/Dogodki/Podrobnosti" asp-route-id="@d.Id">@d.Naslov</a></li>
+    }
+    </ul>
+}
