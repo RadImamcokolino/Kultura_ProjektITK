@@ -22,7 +22,19 @@ public class DodajModel : PageModel
             ErrorMessage = "Naslov in vrsta sta obvezna.";
             return Page();
         }
-        Input = Input with { Id = Guid.NewGuid() };
+
+        // Popravek: 'with' ni na voljo za navaden razred; ustvarimo nov objekt z nastavitvijo init lastnosti.
+        Input = new Dogodek
+        {
+            Id = Guid.NewGuid(),
+            Naslov = Input.Naslov,
+            Vrsta = Input.Vrsta,
+            Lokacija = Input.Lokacija,
+            Zacetek = Input.Zacetek,
+            Cena = Input.Cena,
+            Priljubljenost = Input.Priljubljenost
+        };
+
         _repo.Dodaj(Input);
         return RedirectToPage("Podrobnosti", new { id = Input.Id });
     }
