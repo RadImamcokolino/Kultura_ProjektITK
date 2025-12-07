@@ -26,5 +26,8 @@
     <footer class="footer">
         <small>&copy; @(DateTime.Now.Year) Kultura</small>
     </footer>
+
+    @* Pomembno: omogoči izris opcijske sekcije Scripts *@
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

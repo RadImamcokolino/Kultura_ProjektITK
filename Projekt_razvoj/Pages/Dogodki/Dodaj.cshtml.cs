@@ -10,7 +10,14 @@ public class DodajModel : PageModel
     private readonly IDogodkiRepository _repo;
     public DodajModel(IDogodkiRepository repo) => _repo = repo;
 
-    [BindProperty] public Dogodek Input { get; set; } = new();
+    // Dropdown možnosti za "Vrsta"
+    public IReadOnlyList<string> MozneVrste { get; } = new[] { "koncert", "razstava", "gledalisce" };
+
+    [BindProperty] public Dogodek Input { get; set; } = new()
+    {
+        Priljubljenost = 50 // sredina sliderja kot privzeto
+    };
+
     public string? ErrorMessage { get; private set; }
 
     public void OnGet() { }
@@ -23,8 +30,18 @@ public class DodajModel : PageModel
             return Page();
         }
 
-        // Popravek: 'with' ni na voljo za navaden razred; ustvarimo nov objekt z nastavitvijo init lastnosti.
-        Input = new Dogodek
+        // Preveri izbrano vrsto
+        if (!MozneVrste.Contains(Input.Vrsta, StringComparer.OrdinalIgnoreCase))
+        {
+            ErrorMessage = "Izberite veljavno vrsto dogodka.";
+            return Page();
+        }
+
+        // Omejitev sliderja (varnostna)
+        var priljubljenost = Math.Clamp(Input.Priljubljenost, 1, 100);
+
+        // Ustvari novo instanco (brez 'with') in skopiraj vrednosti
+        var novo = new Dogodek
         {
             Id = Guid.NewGuid(),
             Naslov = Input.Naslov,
@@ -32,10 +49,10 @@ public class DodajModel : PageModel
             Lokacija = Input.Lokacija,
             Zacetek = Input.Zacetek,
             Cena = Input.Cena,
-            Priljubljenost = Input.Priljubljenost
+            Priljubljenost = priljubljenost
         };
 
-        _repo.Dodaj(Input);
-        return RedirectToPage("Podrobnosti", new { id = Input.Id });
+        _repo.Dodaj(novo);
+        return RedirectToPage("Podrobnosti", new { id = novo.Id });
     }
 }
