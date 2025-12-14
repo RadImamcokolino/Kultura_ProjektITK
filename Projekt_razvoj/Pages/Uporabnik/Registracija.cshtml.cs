@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,37 +9,49 @@ namespace Projekt_razvoj.Pages.Uporabnik;
 public class RegistracijaModel : PageModel
 {
     private readonly PreverjevalnikGesel _preverjevalnik;
-    public RegistracijaModel(PreverjevalnikGesel preverjevalnik) => _preverjevalnik = preverjevalnik;
+    private readonly UporabnikiStoritev _users;
+
+    public RegistracijaModel(PreverjevalnikGesel preverjevalnik, UporabnikiStoritev users)
+    {
+        _preverjevalnik = preverjevalnik;
+        _users = users;
+    }
 
     [BindProperty] public string Email { get; set; } = string.Empty;
     [BindProperty] public string Geslo { get; set; } = string.Empty;
     [BindProperty] public string Role { get; set; } = "Uporabnik"; // "Uporabnik" or "Organizator"
+    [BindProperty] public bool SamoRegistriraj { get; set; } = true;
+
     public string? Sporocilo { get; private set; }
 
     public void OnGet() { }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        // Basic validation (demo)
         if (!_preverjevalnik.JeEpostaVeljavna(Email) || !_preverjevalnik.JeGesloMocno(Geslo))
         {
             Sporocilo = "Neveljavna e-pošta ali šibko geslo.";
             return Page();
         }
 
-        // Create claims and sign-in (demo: no persistent user store)
-        var claims = new List<Claim>
+        var u = _users.RegistrirajAliPrijavi(Email, Role);
+        _users.NastaviGeslo(Email, Geslo);
+
+        if (Role == "Organizator" && u.Role != "Organizator")
+            Sporocilo = "Zahteva za organizatorja oddana. Admin mora odobriti.";
+        else
+            Sporocilo = $"Registracija uspešna. Trenutna vloga: {u.Role}.";
+
+        if (SamoRegistriraj)
         {
-            new Claim(ClaimTypes.Name, Email),
-            new Claim(ClaimTypes.Role, Role)
-        };
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
-
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-        Sporocilo = $"Uspešna (demo) prijava kot {Role}.";
-        return Page();
+            return RedirectToPage("/Uporabnik/Prijava");
+        }
+        else
+        {
+            var principal = _users.UstvariPrincipal(u);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            return RedirectToPage("/Index");
+        }
     }
 
     public async Task<IActionResult> OnPostLogoutAsync()

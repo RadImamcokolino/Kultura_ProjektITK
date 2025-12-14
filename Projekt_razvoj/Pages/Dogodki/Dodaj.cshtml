@@ -5,12 +5,61 @@
 }
 <h1>Dodaj dogodek</h1>
 
-<form method="post">
-    <label>Naslov <input asp-for="Naslov" /></label>
-    <label>Vrsta <input asp-for="Vrsta" /></label>
-    <label>Lokacija <input asp-for="Lokacija" /></label>
-    <label>Zaèetek <input asp-for="Zacetek" type="datetime-local" value="@Model.Zacetek.ToString("s")" /></label>
-    <label>Cena <input asp-for="Cena" /></label>
-    <label>Priljubljenost <input asp-for="Priljubljenost" type="number" /></label>
-    <button class="btn" type="submit">Dodaj</button>
+<form method="post" class="form-vertical">
+    <div class="form-row">
+        <label for="Naslov">Naslov</label>
+        <input id="Naslov" asp-for="Naslov" />
+    </div>
+
+    <div class="form-row">
+        <label for="Vrsta">Vrsta</label>
+        <select id="Vrsta" asp-for="Vrsta">
+            <option value="">(Izberi vrsto)</option>
+            @foreach (var v in Model.Vrste)
+            {
+                <option value="@v">@v</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="Lokacija">Lokacija</label>
+        <input id="Lokacija" asp-for="Lokacija" />
+    </div>
+
+    <div class="form-row">
+        <label for="Zacetek">Zaèetek</label>
+        <input id="Zacetek" asp-for="Zacetek" type="datetime-local" value="@Model.Zacetek.ToString("s")" />
+    </div>
+
+    <div class="form-row">
+        <label for="Cena">Cena</label>
+        <input id="Cena" asp-for="Cena" type="number" step="0.01" min="0" />
+        <small>(0 ali prazno pomeni brezplaèno)</small>
+    </div>
+
+    <div class="form-row">
+        <label for="Priljubljenost">Priljubljenost: <strong>@Model.Priljubljenost</strong></label>
+        <input id="Priljubljenost" asp-for="Priljubljenost" type="range" min="0" max="100" step="1"
+               oninput="document.getElementById('PriljubljenostValue').textContent=this.value" />
+        <span id="PriljubljenostValue">@Model.Priljubljenost</span>
+    </div>
+
+    <div class="form-actions">
+        <button class="btn" type="submit">Dodaj</button>
+        <a class="btn" asp-page="Seznam">Nazaj na seznam</a>
+    </div>
 </form>
+
+@section Scripts {
+    <script>
+        // inicializacija prikaza vrednosti range ob nalaganju
+        (function () {
+            var el = document.getElementById('Priljubljenost');
+            if (el) {
+                var out = document.getElementById('PriljubljenostValue');
+                if (out) out.textContent = el.value;
+            }
+        })();
+    </script>
+}

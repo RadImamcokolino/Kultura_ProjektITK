@@ -21,13 +21,21 @@
                 <a asp-page="/Dogodki/Dodaj">Dodaj dogodek</a>
             }
             <a asp-page="/Priljubljeni">Priljubljeni</a>
-            <a asp-page="/Uporabnik/Registracija">Registracija</a>
+            @if (User?.IsInRole("Admin") == true)
+            {
+                <a asp-page="/Admin/Odobritve">Admin: odobritve</a>
+            }
+            @if (User?.Identity?.IsAuthenticated != true)
+            {
+                <a asp-page="/Uporabnik/Prijava">Prijava</a>
+                <a asp-page="/Uporabnik/Registracija">Registracija</a>
+            }
         </nav>
         <div class="auth">
             @if (User?.Identity?.IsAuthenticated == true)
             {
                 <span>Prijavljen: @User.Identity.Name</span>
-                <form method="post" asp-page="/Uporabnik/Registracija" asp-page-handler="Logout" style="display:inline">
+                <form method="post" asp-page="/Uporabnik/Prijava" asp-page-handler="Logout" style="display:inline">
                     <button class="btn-small" type="submit">Odjava</button>
                 </form>
             }

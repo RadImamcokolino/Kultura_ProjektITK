@@ -1,0 +1,27 @@
+@page
+@model Projekt_razvoj.Pages.Admin.OdobritveModel
+@using System.Linq
+@{
+    ViewData["Title"] = "Odobritve organizatorjev";
+}
+<h1>Odobritve organizatorjev</h1>
+
+@if (!Model.Pending.Any())
+{
+    <p>Ni èakajoèih zahtev.</p>
+}
+else
+{
+    <ul>
+    @foreach (var email in Model.Pending)
+    {
+        <li>
+            @email
+            <form method="post" asp-page-handler="Odobri" style="display:inline">
+                <input type="hidden" name="email" value="@email" />
+                <button class="btn-small" type="submit">Odobri</button>
+            </form>
+        </li>
+    }
+    </ul>
+}

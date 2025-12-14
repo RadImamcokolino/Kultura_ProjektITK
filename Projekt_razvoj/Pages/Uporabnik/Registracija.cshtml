@@ -3,33 +3,27 @@
 @{
     ViewData["Title"] = "Registracija";
 }
-<h1>Registracija / Prijava (demo)</h1>
+<h1>Registracija (demo)</h1>
 
-@if (User?.Identity?.IsAuthenticated == true)
+<form method="post">
+    <label>E-pošta <input asp-for="Email" /></label>
+    <label>Geslo <input asp-for="Geslo" type="password" /></label>
+
+    <fieldset>
+        <legend>Vloga</legend>
+        <label><input type="radio" asp-for="Role" value="Uporabnik" checked="checked" /> Uporabnik (samo ogled)</label>
+        <label><input type="radio" asp-for="Role" value="Organizator" /> Organizator (zahteva odobritev)</label>
+    </fieldset>
+
+    <label><input asp-for="SamoRegistriraj" type="checkbox" checked /> Ne prijavi se samodejno po registraciji</label>
+
+    <div style="margin-top:1rem">
+        <button class="btn" type="submit">Registriraj</button>
+        <a class="btn" asp-page="/Uporabnik/Prijava">Že imaš raèun? Prijavi se</a>
+    </div>
+</form>
+
+@if (Model.Sporocilo is not null)
 {
-    <p>Prijavljen kot <strong>@User.Identity.Name</strong> (@(User.IsInRole("Organizator") ? "Organizator" : "Uporabnik"))</p>
-    <form method="post" asp-page-handler="Logout">
-        <button class="btn" type="submit">Odjava</button>
-    </form>
-}
-else
-{
-    <p>Tukaj se prijavite/registrirate</p>
-    <form method="post">
-        <label>E-pošta <input asp-for="Email" /></label>
-        <label>Geslo <input asp-for="Geslo" type="password" /></label>
-
-        <fieldset>
-            <legend>Vloga</legend>
-            <label><input type="radio" asp-for="Role" value="Uporabnik" checked="checked" /> Uporabnik (samo ogled)</label>
-            <label><input type="radio" asp-for="Role" value="Organizator" /> Organizator (lahko dodaja)</label>
-        </fieldset>
-
-        <button class="btn" type="submit">Prijavi / Registriraj</button>
-    </form>
-
-    @if (Model.Sporocilo is not null)
-    {
-        <p class="info">@Model.Sporocilo</p>
-    }
+    <p class="info">@Model.Sporocilo</p>
 }

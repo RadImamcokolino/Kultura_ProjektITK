@@ -1,0 +1,20 @@
+@page
+@model Projekt_razvoj.Pages.Uporabnik.PrijavaModel
+@{
+    ViewData["Title"] = "Prijava";
+}
+<h1>Prijava</h1>
+
+<form method="post">
+    <label>E-pošta <input asp-for="Email" /></label>
+    <label>Geslo <input asp-for="Geslo" type="password" /></label>
+    <div style="margin-top:1rem">
+        <button class="btn" type="submit">Prijavi</button>
+        <a class="btn" asp-page="/Uporabnik/Registracija">Ustvari nov raèun</a>
+    </div>
+</form>
+
+@if (Model.Sporocilo is not null)
+{
+    <p class="info">@Model.Sporocilo</p>
+}

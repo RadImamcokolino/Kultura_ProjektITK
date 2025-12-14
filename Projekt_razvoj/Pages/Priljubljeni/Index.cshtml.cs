@@ -19,7 +19,10 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        var ids = _priljubljeni.PridobiVse("demoUser");
+        // Use logged-in user name if available; fallback to demoUser
+        var user = User?.Identity?.Name ?? "demoUser";
+
+        var ids = _priljubljeni.PridobiVse(user);
         Dogodki = ids
             .Select(id => _repo.Pridobi(id))
             .Where(d => d is not null)!
