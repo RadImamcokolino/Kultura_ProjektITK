@@ -12,16 +12,29 @@ public class OdobritveModel : PageModel
     public OdobritveModel(UporabnikiStoritev users) => _users = users;
 
     public IReadOnlyCollection<string> Pending { get; private set; } = Array.Empty<string>();
+    public IReadOnlyCollection<string> Organizatorji { get; private set; } = Array.Empty<string>();
 
     public void OnGet()
     {
         Pending = _users.PridobiPendingOrganizatorje();
+        Organizatorji = _users.PridobiOrganizatorje();
     }
 
     public IActionResult OnPostOdobri(string email)
     {
-        if (string.IsNullOrWhiteSpace(email)) return RedirectToPage();
-        _users.OdobriOrganizatorja(email);
+        if (!string.IsNullOrWhiteSpace(email))
+        {
+            _users.OdobriOrganizatorja(email);
+        }
+        return RedirectToPage();
+    }
+
+    public IActionResult OnPostRazveljavi(string email)
+    {
+        if (!string.IsNullOrWhiteSpace(email))
+        {
+            _users.RazveljaviOrganizatorja(email);
+        }
         return RedirectToPage();
     }
 }

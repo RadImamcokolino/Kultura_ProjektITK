@@ -34,7 +34,7 @@ public sealed class UporabnikiStoritev
         return u;
     }
 
-    // DEMO: store SHA256 hash of the password (in-memory, not persistent)
+    // DEMO password hashing
     public void NastaviGeslo(string email, string geslo)
     {
         var u = RegistrirajAliPrijavi(email, "Uporabnik");
@@ -64,6 +64,26 @@ public sealed class UporabnikiStoritev
         }
         return false;
     }
+
+    // NEW: revoke organizer role (set back to Uporabnik)
+    public bool RazveljaviOrganizatorja(string email)
+    {
+        if (_uporabniki.TryGetValue(email, out var u))
+        {
+            if (u.Role == "Organizator")
+            {
+                u.Role = "Uporabnik";
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // NEW: list current organizers
+    public IReadOnlyCollection<string> PridobiOrganizatorje() =>
+        _uporabniki.Values.Where(u => string.Equals(u.Role, "Organizator", StringComparison.OrdinalIgnoreCase))
+                          .Select(u => u.Email)
+                          .ToArray();
 
     public void DodeliAdmin(string email)
     {

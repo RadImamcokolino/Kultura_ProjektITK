@@ -6,22 +6,48 @@
 }
 <h1>Odobritve organizatorjev</h1>
 
-@if (!Model.Pending.Any())
-{
-    <p>Ni èakajoèih zahtev.</p>
-}
-else
-{
-    <ul>
-    @foreach (var email in Model.Pending)
+<section>
+    <h2>Èakajoèe zahteve</h2>
+    @if (!Model.Pending.Any())
     {
-        <li>
-            @email
-            <form method="post" asp-page-handler="Odobri" style="display:inline">
-                <input type="hidden" name="email" value="@email" />
-                <button class="btn-small" type="submit">Odobri</button>
-            </form>
-        </li>
+        <p>Ni èakajoèih zahtev.</p>
     }
-    </ul>
-}
+    else
+    {
+        <ul>
+        @foreach (var email in Model.Pending)
+        {
+            <li>
+                @email
+                <form method="post" asp-page-handler="Odobri" style="display:inline">
+                    <input type="hidden" name="email" value="@email" />
+                    <button class="btn-small" type="submit">Odobri</button>
+                </form>
+            </li>
+        }
+        </ul>
+    }
+</section>
+
+<section style="margin-top:2rem">
+    <h2>Aktivni organizatorji</h2>
+    @if (!Model.Organizatorji.Any())
+    {
+        <p>Ni aktivnih organizatorjev.</p>
+    }
+    else
+    {
+        <ul>
+        @foreach (var email in Model.Organizatorji)
+        {
+            <li>
+                @email
+                <form method="post" asp-page-handler="Razveljavi" style="display:inline">
+                    <input type="hidden" name="email" value="@email" />
+                    <button class="btn-small" type="submit">Odvzemi pravice</button>
+                </form>
+            </li>
+        }
+        </ul>
+    }
+</section>
