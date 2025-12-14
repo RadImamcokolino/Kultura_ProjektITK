@@ -39,7 +39,10 @@ public class SeznamModel : PageModel
     {
         var d = _repo.Pridobi(id);
         if (d is null) return NotFound();
-        _priljubljeni.Dodaj("demoUser", id); // demo user
+
+        // Use logged-in user name if available; fallback to demoUser
+        var user = User?.Identity?.Name ?? "demoUser";
+        _priljubljeni.Dodaj(user, id);
         return RedirectToPage(new { Lokacija, Vrsta, Brezplacni });
     }
 }

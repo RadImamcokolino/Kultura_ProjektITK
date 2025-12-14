@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Projekt_razvoj.Modeli;
@@ -5,18 +6,22 @@ using Projekt_razvoj.Storitve;
 
 namespace Projekt_razvoj.Pages.Dogodki;
 
+[Authorize(Roles = "Organizator")]
 public class DodajModel : PageModel
 {
     private readonly IDogodkiRepository _repo;
+
     public DodajModel(IDogodkiRepository repo) => _repo = repo;
+
+    [BindProperty] public string Naslov { get; set; } = string.Empty;
+    [BindProperty] public string Vrsta { get; set; } = string.Empty;
+    [BindProperty] public string Lokacija { get; set; } = string.Empty;
+    [BindProperty] public DateTime Zacetek { get; set; } = DateTime.Now;
+    [BindProperty] public decimal? Cena { get; set; }
+    [BindProperty] public int Priljubljenost { get; set; }
 
     // Dropdown možnosti za "Vrsta"
     public IReadOnlyList<string> MozneVrste { get; } = new[] { "koncert", "razstava", "gledalisce" };
-
-    [BindProperty] public Dogodek Input { get; set; } = new()
-    {
-        Priljubljenost = 50 // sredina sliderja kot privzeto
-    };
 
     public string? ErrorMessage { get; private set; }
 
@@ -24,35 +29,30 @@ public class DodajModel : PageModel
 
     public IActionResult OnPost()
     {
-        if (string.IsNullOrWhiteSpace(Input.Naslov) || string.IsNullOrWhiteSpace(Input.Vrsta))
-        {
-            ErrorMessage = "Naslov in vrsta sta obvezna.";
+        if (string.IsNullOrWhiteSpace(Naslov) || string.IsNullOrWhiteSpace(Vrsta) || string.IsNullOrWhiteSpace(Lokacija))
             return Page();
-        }
 
         // Preveri izbrano vrsto
-        if (!MozneVrste.Contains(Input.Vrsta, StringComparer.OrdinalIgnoreCase))
+        if (!MozneVrste.Contains(Vrsta, StringComparer.OrdinalIgnoreCase))
         {
             ErrorMessage = "Izberite veljavno vrsto dogodka.";
             return Page();
         }
 
         // Omejitev sliderja (varnostna)
-        var priljubljenost = Math.Clamp(Input.Priljubljenost, 1, 100);
+        var priljubljenost = Math.Clamp(Priljubljenost, 1, 100);
 
-        // Ustvari novo instanco (brez 'with') in skopiraj vrednosti
-        var novo = new Dogodek
+        var d = new Dogodek
         {
-            Id = Guid.NewGuid(),
-            Naslov = Input.Naslov,
-            Vrsta = Input.Vrsta,
-            Lokacija = Input.Lokacija,
-            Zacetek = Input.Zacetek,
-            Cena = Input.Cena,
-            Priljubljenost = priljubljenost
+            Naslov = Naslov,
+            Vrsta = Vrsta,
+            Lokacija = Lokacija,
+            Zacetek = Zacetek,
+            Cena = Cena,
+            Priljubljenost = Priljubljenost
         };
 
-        _repo.Dodaj(novo);
-        return RedirectToPage("Podrobnosti", new { id = novo.Id });
+        _repo.Dodaj(d);
+        return RedirectToPage("Seznam");
     }
 }

@@ -6,57 +6,11 @@
 <h1>Dodaj dogodek</h1>
 
 <form method="post">
-    <div>
-        <label>Naslov</label>
-        <input asp-for="Input.Naslov" />
-        <span asp-validation-for="Input.Naslov"></span>
-    </div>
-
-    <div>
-        <label>Vrsta</label>
-        <select asp-for="Input.Vrsta">
-            @foreach (var v in Model.MozneVrste)
-            {
-                <option value="@v">@v</option>
-            }
-        </select>
-        <span asp-validation-for="Input.Vrsta"></span>
-    </div>
-
-    <div>
-        <label>Lokacija</label>
-        <input asp-for="Input.Lokacija" />
-        <span asp-validation-for="Input.Lokacija"></span>
-    </div>
-
-    <div>
-        <label>Zaèetek</label>
-        <input asp-for="Input.Zacetek" type="datetime-local" />
-        <span asp-validation-for="Input.Zacetek"></span>
-    </div>
-
-    <div>
-        <label>Cena (pusti prazno ali 0 za brezplaèno)</label>
-        <input asp-for="Input.Cena" />
-        <span asp-validation-for="Input.Cena"></span>
-    </div>
-
-    <div>
-        <label>Priljubljenost: <strong id="priljubljenostLabel">@Model.Input.Priljubljenost</strong></label>
-        <input asp-for="Input.Priljubljenost" type="range" min="1" max="100" step="1"
-               oninput="document.getElementById('priljubljenostLabel').textContent = this.value" />
-        <span asp-validation-for="Input.Priljubljenost"></span>
-    </div>
-
-    <button type="submit">Shrani</button>
-    <a asp-page="Seznam">Preklièi</a>
+    <label>Naslov <input asp-for="Naslov" /></label>
+    <label>Vrsta <input asp-for="Vrsta" /></label>
+    <label>Lokacija <input asp-for="Lokacija" /></label>
+    <label>Zaèetek <input asp-for="Zacetek" type="datetime-local" value="@Model.Zacetek.ToString("s")" /></label>
+    <label>Cena <input asp-for="Cena" /></label>
+    <label>Priljubljenost <input asp-for="Priljubljenost" type="number" /></label>
+    <button class="btn" type="submit">Dodaj</button>
 </form>
-
-@if (Model.ErrorMessage is not null)
-{
-    <p>@Model.ErrorMessage</p>
-}
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
