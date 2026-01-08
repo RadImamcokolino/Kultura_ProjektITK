@@ -3,14 +3,11 @@ using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dinamièen port, èe URL ni podan v konfiguraciji ali okolju
-if (string.IsNullOrWhiteSpace(builder.Configuration["ASPNETCORE_URLS"]) &&
-    string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")))
-{
-    builder.WebHost.UseUrls("http://127.0.0.1:0");
-}
+// --------------------
+// SERVICES
+// --------------------
 
-// Registracija Razor Pages
+// Razor Pages
 builder.Services.AddRazorPages();
 
 // Configure form options for file uploads
@@ -41,7 +38,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
-// Aplikacijske storitve
+// Application services
 builder.Services.AddSingleton<Projekt_razvoj.Storitve.PreverjevalnikGesel>();
 builder.Services.AddSingleton<Projekt_razvoj.Storitve.IskanjeDogodkovStoritev>();
 builder.Services.AddSingleton<Projekt_razvoj.Storitve.PriljubljeniStoritev>();
@@ -50,6 +47,10 @@ builder.Services.AddSingleton<Projekt_razvoj.Storitve.UporabnikiStoritev>();
 builder.Services.AddSingleton<Projekt_razvoj.Storitve.OceneStoritev>();
 
 var app = builder.Build();
+
+// --------------------
+// MIDDLEWARE
+// --------------------
 
 if (app.Environment.IsDevelopment())
 {
@@ -60,7 +61,7 @@ else
     app.UseExceptionHandler("/Error");
 }
 
-// GLOBAL EXCEPTION HANDLER
+// Global exception logger
 app.Use(async (context, next) =>
 {
     try
@@ -78,7 +79,15 @@ app.Use(async (context, next) =>
 
 app.UseStaticFiles();
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapRazorPages();
-app.Run();
+
+// --------------------
+// IMPORTANT: PORT BINDING FOR AZURE / DOCKER
+// --------------------
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+app.Run($"http://0.0.0.0:{port}");
