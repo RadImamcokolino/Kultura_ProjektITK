@@ -21,6 +21,10 @@
                 <a asp-page="/Dogodki/Dodaj">Dodaj dogodek</a>
             }
             <a asp-page="/Priljubljeni">Priljubljeni</a>
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <a asp-page="/Uporabnik/Profil">Profil</a>
+            }
             @if (User?.IsInRole("Admin") == true)
             {
                 <a asp-page="/Admin/Odobritve">Admin: odobritve</a>

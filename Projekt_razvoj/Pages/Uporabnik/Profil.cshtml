@@ -1,0 +1,114 @@
+@page
+@namespace Projekt_razvoj.Pages.Uporabnik
+@model ProfilModel
+@{
+    ViewData["Title"] = "Moj profil";
+}
+
+<h1>Moj profil</h1>
+
+@if (Model.Uporabnik is null)
+{
+    <p class="error">Uporabnik ni najden.</p>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(Model.Sporocilo))
+    {
+        <p class="info">@Model.Sporocilo</p>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="error">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <div>
+        <h2>Informacije</h2>
+        <dl class="details">
+            <dt>Email</dt>
+            <dd>@Model.Uporabnik.Email</dd>
+            <dt>Vloga</dt>
+            <dd>@Model.Uporabnik.Role</dd>
+            <dt>Lokacija</dt>
+            <dd>@(string.IsNullOrEmpty(Model.Uporabnik.Lokacija) ? "Ni nastavljeno" : Model.Uporabnik.Lokacija)</dd>
+            <dt>Interesi</dt>
+            <dd>
+                @if (Model.Uporabnik.Interesi.Any())
+                {
+                    <span>@string.Join(", ", Model.Uporabnik.Interesi)</span>
+                }
+                else
+                {
+                    <span>Ni nastavljeno</span>
+                }
+            </dd>
+        </dl>
+
+        @if (!string.IsNullOrEmpty(Model.Uporabnik.Fotografija))
+        {
+            <div style="margin-top: 1rem;">
+                <strong>Trenutna fotografija:</strong><br />
+                <img src="@Model.Uporabnik.Fotografija" alt="Profilna fotografija" style="max-width: 200px; border-radius: 8px; margin-top: 0.5rem;" />
+            </div>
+        }
+    </div>
+
+    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #333;" />
+
+    <h2>Uredi profil</h2>
+    <form method="post" enctype="multipart/form-data" class="form">
+        
+        <label>
+            Lokacija
+            <input asp-for="Lokacija" placeholder="Npr. Ljubljana" />
+            <span asp-validation-for="Lokacija" class="error"></span>
+        </label>
+
+        <label>
+            Interesna podroèja (loèena z vejico)
+            <input asp-for="InteresiText" placeholder="Npr. glasba, umetnost, gledališèe" />
+        </label>
+
+        <label>
+            Profilna fotografija
+            <input type="file" asp-for="NovaFotografija" accept=".jpg,.jpeg,.png,.gif" />
+            <span asp-validation-for="NovaFotografija" class="error"></span>
+            <small style="display: block; color: #999; margin-top: 0.3rem;">Dovoljeni formati: JPG, PNG, GIF (max 5MB)</small>
+        </label>
+
+        <div style="margin-top: 1rem;">
+            <button type="submit" class="btn">Shrani spremembe</button>
+            <a asp-page="/Index" class="btn-secondary">Nazaj</a>
+        </div>
+    </form>
+
+    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #333;" />
+
+    <section>
+        <h2>Naloži PDF (vidno administratorju)</h2>
+        <form method="post" enctype="multipart/form-data" asp-page-handler="UploadPdf" class="form">
+            <input type="hidden" name="id" value="@Model.Uporabnik.Email" />
+            <label>
+                PDF dokument
+                <input type="file" name="pdfFile" accept="application/pdf" />
+                <small style="display:block;color:#999;margin-top:0.3rem;">Dovoljen tip: PDF (max 10MB)</small>
+            </label>
+            <div style="margin-top: 1rem;">
+                <button type="submit" class="btn">Naloži PDF</button>
+            </div>
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.UploadMessage))
+        {
+            <p class="info">@Model.UploadMessage</p>
+        }
+    </section>
+}

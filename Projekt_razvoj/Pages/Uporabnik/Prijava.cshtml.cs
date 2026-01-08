@@ -20,6 +20,7 @@ public class PrijavaModel : PageModel
     [BindProperty] public string Email { get; set; } = string.Empty;
     [BindProperty] public string Geslo { get; set; } = string.Empty;
     public string? Sporocilo { get; private set; }
+    public string? Napaka { get; private set; }
 
     public void OnGet() { }
 
@@ -27,14 +28,14 @@ public class PrijavaModel : PageModel
     {
         if (!_preverjevalnik.JeEpostaVeljavna(Email))
         {
-            Sporocilo = "Neveljavna e-pošta.";
+            Napaka = "Neveljavna e-pošta.";
             return Page();
         }
 
         var u = _users.Najdi(Email);
         if (u is null || !_users.PreveriGeslo(Email, Geslo))
         {
-            Sporocilo = "Napaèna e-pošta ali geslo.";
+            Napaka = "Napaèna e-pošta ali geslo.";
             return Page();
         }
 

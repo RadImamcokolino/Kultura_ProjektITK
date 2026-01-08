@@ -24,6 +24,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cT2RvYnJpdHZlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/nejck/source/repos/Projekt_razvoj/Projekt_razvoj/Pages/Admin/OrganizerPdfs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cT3JnYW5pemVyUGRmcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/nejck/source/repos/Projekt_razvoj/Projekt_razvoj/Pages/Dogodki/Dodaj.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRG9nb2RraVxEb2Rhai5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -58,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/nejck/source/repos/Projekt_razvoj/Projekt_razvoj/Pages/Uporabnik/Prijava.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBvcmFibmlrXFByaWphdmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nejck/source/repos/Projekt_razvoj/Projekt_razvoj/Pages/Uporabnik/Profil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBvcmFibmlrXFByb2ZpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nejck/source/repos/Projekt_razvoj/Projekt_razvoj/Pages/Uporabnik/Registracija.cshtml]

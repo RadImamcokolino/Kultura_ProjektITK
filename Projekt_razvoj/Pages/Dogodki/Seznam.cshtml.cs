@@ -10,28 +10,46 @@ public class SeznamModel : PageModel
     private readonly IDogodkiRepository _repo;
     private readonly IskanjeDogodkovStoritev _iskanje;
     private readonly PriljubljeniStoritev _priljubljeni;
+    private readonly OceneStoritev _ocene; // NEW
 
-    public SeznamModel(IDogodkiRepository repo, IskanjeDogodkovStoritev iskanje, PriljubljeniStoritev priljubljeni)
+    public SeznamModel(IDogodkiRepository repo, IskanjeDogodkovStoritev iskanje, PriljubljeniStoritev priljubljeni, OceneStoritev ocene) // NEW param
     {
         _repo = repo;
         _iskanje = iskanje;
         _priljubljeni = priljubljeni;
+        _ocene = ocene; // NEW
     }
 
     public IEnumerable<Dogodek> Dogodki { get; private set; } = [];
     [BindProperty(SupportsGet = true)] public string? Lokacija { get; set; }
     [BindProperty(SupportsGet = true)] public string? Vrsta { get; set; }
     [BindProperty(SupportsGet = true)] public bool Brezplacni { get; set; }
+    [BindProperty(SupportsGet = true)] public int? MinOcena { get; set; } // NEW: minimalna povpreèna ocena (1-5)
 
     public void OnGet()
     {
         var all = _repo.PridobiVse();
+
         if (!string.IsNullOrWhiteSpace(Lokacija))
             all = _iskanje.FiltrirajPoLokaciji(all, Lokacija);
+
         if (!string.IsNullOrWhiteSpace(Vrsta))
             all = _iskanje.FiltrirajPoVrsti(all, Vrsta);
+
         if (Brezplacni)
             all = _iskanje.FiltrirajBrezplacne(all);
+
+        // NEW: filtriranje po povpreèni oceni, èe je MinOcena podan (1-5)
+        if (MinOcena is int min && min >= 1 && min <= 5)
+        {
+            all = all.Where(d =>
+            {
+                var avg = _ocene.IzracunajPovprecnoOceno(d.Id);
+                // èe še ni ocen, avg je null -> izloèi; sicer primerjaj
+                return avg is not null && avg.Value >= min;
+            });
+        }
+
         Dogodki = _iskanje.UrediPoDatumu(all);
     }
 
@@ -43,6 +61,6 @@ public class SeznamModel : PageModel
         // Use logged-in user name if available; fallback to demoUser
         var user = User?.Identity?.Name ?? "demoUser";
         _priljubljeni.Dodaj(user, id);
-        return RedirectToPage(new { Lokacija, Vrsta, Brezplacni });
+        return RedirectToPage(new { Lokacija, Vrsta, Brezplacni, MinOcena }); // NEW: ohrani filter
     }
 }

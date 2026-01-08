@@ -65,7 +65,6 @@ public sealed class UporabnikiStoritev
         return false;
     }
 
-    // NEW: revoke organizer role (set back to Uporabnik)
     public bool RazveljaviOrganizatorja(string email)
     {
         if (_uporabniki.TryGetValue(email, out var u))
@@ -79,7 +78,6 @@ public sealed class UporabnikiStoritev
         return false;
     }
 
-    // NEW: list current organizers
     public IReadOnlyCollection<string> PridobiOrganizatorje() =>
         _uporabniki.Values.Where(u => string.Equals(u.Role, "Organizator", StringComparison.OrdinalIgnoreCase))
                           .Select(u => u.Email)
@@ -97,6 +95,19 @@ public sealed class UporabnikiStoritev
     }
 
     public Uporabnik? Najdi(string email) => _uporabniki.TryGetValue(email, out var u) ? u : null;
+
+    // NEW: Update user profile
+    public bool PosodobiProfil(string email, string? lokacija, List<string>? interesi, string? fotografija)
+    {
+        if (_uporabniki.TryGetValue(email, out var u))
+        {
+            u.Lokacija = lokacija;
+            u.Interesi = interesi ?? new List<string>();
+            u.Fotografija = fotografija;
+            return true;
+        }
+        return false;
+    }
 
     public ClaimsPrincipal UstvariPrincipal(Uporabnik u, string? overrideRole = null)
     {
@@ -116,4 +127,7 @@ public sealed class Uporabnik
     public string Email { get; set; } = string.Empty;
     public string Role { get; set; } = "Uporabnik"; // Uporabnik | Organizator | Admin
     public string? PasswordHash { get; set; }
+    public string? Lokacija { get; set; }
+    public List<string> Interesi { get; set; } = new();
+    public string? Fotografija { get; set; } // pot do fotografije
 }

@@ -14,6 +14,11 @@
     </div>
 </form>
 
+@if (Model.Napaka is not null)
+{
+    <div class="error-message">@Model.Napaka</div>
+}
+
 @if (Model.Sporocilo is not null)
 {
     <p class="info">@Model.Sporocilo</p>

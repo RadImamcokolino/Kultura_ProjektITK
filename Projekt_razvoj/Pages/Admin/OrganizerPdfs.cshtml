@@ -1,0 +1,25 @@
+@page "{id:int}"
+@model Projekt_razvoj.Pages.Admin.OrganizerPdfsModel
+@{
+    ViewData["Title"] = "Organizer PDFs";
+}
+
+<h1>Organizer PDFs</h1>
+<p>Organizer ID: @Model.OrganizerId</p>
+
+@if (Model.Pdfs.Count == 0)
+{
+    <p>Ni naloženih dokumentov.</p>
+}
+else
+{
+    <ul>
+        @foreach (var pdf in Model.Pdfs)
+        {
+            <li>
+                <a href="@pdf.Url" target="_blank">@pdf.FileName</a>
+                <span> (@pdf.SizeKb KB)</span>
+            </li>
+        }
+    </ul>
+}

@@ -2,7 +2,6 @@ C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\appse
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\appsettings.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\Projekt_razvoj.staticwebassets.runtime.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\Projekt_razvoj.staticwebassets.endpoints.json
-C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\Projekt_razvoj.exe
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\Projekt_razvoj.deps.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\Projekt_razvoj.runtimeconfig.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\bin\Debug\net8.0\Projekt_razvoj.dll
@@ -15,6 +14,7 @@ C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Proje
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.RazorAssemblyInfo.cache
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.RazorAssemblyInfo.cs
+C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.sourcelink.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -31,4 +31,3 @@ C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\refin
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.pdb
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.genruntimeconfig.cache
 C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\ref\Projekt_razvoj.dll
-C:\Users\nejck\source\repos\Projekt_razvoj\Projekt_razvoj\obj\Debug\net8.0\Projekt_razvoj.sourcelink.json

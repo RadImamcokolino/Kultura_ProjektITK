@@ -1,4 +1,4 @@
-@page "{id:guid}"
+﻿@page "{id:guid}"
 @model Projekt_razvoj.Pages.Dogodki.PodrobnostiModel
 @{
     ViewData["Title"] = "Podrobnosti";
@@ -13,9 +13,81 @@ else
     <dl class="details">
         <dt>Vrsta</dt><dd>@Model.Dogodek.Vrsta</dd>
         <dt>Lokacija</dt><dd>@Model.Dogodek.Lokacija</dd>
-        <dt>Za�etek</dt><dd>@Model.Dogodek.Zacetek.ToString("dd.MM.yyyy HH:mm")</dd>
-        <dt>Cena</dt><dd>@(Model.Dogodek.Cena is null || Model.Dogodek.Cena == 0 ? "Brezpla�no" : Model.Dogodek.Cena?.ToString("0.00 �"))</dd>
+        <dt>Začetek</dt><dd>@Model.Dogodek.Zacetek.ToString("dd.MM.yyyy HH:mm")</dd>
+        <dt>Cena</dt><dd>@(Model.Dogodek.Cena is null || Model.Dogodek.Cena == 0 ? "Brezplačno" : Model.Dogodek.Cena?.ToString("0.00 €"))</dd>
         <dt>Priljubljenost</dt><dd>@Model.Dogodek.Priljubljenost</dd>
     </dl>
+
+    <div class="rating-section">
+        <h2>Ocene</h2>
+        @if (Model.PovprecnaOcena.HasValue)
+        {
+            <div class="avg-rating">
+                <strong>Povprečna ocena:</strong> @Model.PovprecnaOcena.Value.ToString("0.0") ⭐ 
+                (@Model.StOcen @(Model.StOcen == 1 ? "ocena" : Model.StOcen == 2 ? "oceni" : "ocen"))
+            </div>
+        }
+        else
+        {
+            <p class="info">Dogodek še nima ocen.</p>
+        }
+
+        <h3>@(Model.JeOcenil ? "Uredi svojo oceno" : "Dodaj oceno")</h3>
+        <form method="post" asp-page-handler="DodajOceno" asp-route-id="@Model.Dogodek.Id" class="rating-form">
+            <div class="form-group">
+                <label asp-for="Zvezdice">Ocena (1-5 zvezdic):</label>
+                <div class="star-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        var num = i;
+                        <label class="star-label">
+                            <input type="radio" asp-for="Zvezdice" value="@num" />
+                            <span class="star">⭐</span>
+                        </label>
+                    }
+                </div>
+                <span asp-validation-for="Zvezdice" class="error"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Komentar">Komentar:</label>
+                <textarea asp-for="Komentar" rows="4" placeholder="Napišite svoj komentar o dogodku..."></textarea>
+                <span asp-validation-for="Komentar" class="error"></span>
+            </div>
+            
+            <button type="submit" class="btn">@(Model.JeOcenil ? "Posodobi oceno" : "Oddaj oceno")</button>
+        </form>
+    </div>
+
+    @if (Model.Ocene.Any())
+    {
+        <div class="reviews-section">
+            <h3>Vse ocene (@Model.StOcen)</h3>
+            @foreach (var ocena in Model.Ocene)
+            {
+                <div class="review-card">
+                    <div class="review-header">
+                        <strong>@ocena.UporabnikEmail</strong>
+                        <span class="review-rating">
+                            @for (int i = 0; i < ocena.Zvezdice; i++)
+                            {
+                                <span>⭐</span>
+                            }
+                        </span>
+                        <span class="review-date">@ocena.DatumOcene.ToString("dd.MM.yyyy HH:mm")</span>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(ocena.Komentar))
+                    {
+                        <p class="review-comment">@ocena.Komentar</p>
+                    }
+                </div>
+            }
+        </div>
+    }
+
     <p><a class="btn-secondary" asp-page="Seznam">Nazaj</a></p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -1,0 +1,33 @@
+﻿@page
+@model YourApp.Pages.Events.RateModel
+@{
+    ViewData["Title"] = "Oceni dogodek";
+}
+<h2>Oceni dogodek: @Model.EventTitle</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Ocena (zvezdice)</label>
+        <div class="d-flex align-items-center gap-2">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <input type="radio" class="btn-check" name="Input.Stars" id="star-@i" value="@i" checked="@(Model.Input.Stars == i)">
+                <label class="btn btn-outline-warning" for="star-@i">★ @i</label>
+            }
+        </div>
+        <span class="text-danger" asp-validation-for="Input.Stars"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Input.Comment">Komentar (neobvezno)</label>
+        <textarea class="form-control" asp-for="Input.Comment" rows="4" placeholder="Vaš komentar..."></textarea>
+        <span class="text-danger" asp-validation-for="Input.Comment"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Oddaj oceno</button>
+    <a class="btn btn-secondary" asp-page="/Events/Details" asp-route-id="@Model.EventId">Nazaj</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
